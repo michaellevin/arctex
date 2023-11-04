@@ -1,1 +1,1 @@
-from .core import test
+from .core import CSVAdapter

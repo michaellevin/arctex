@@ -1,1 +1,1 @@
-from .parser import test
+from .csv_adapter import CSVAdapter

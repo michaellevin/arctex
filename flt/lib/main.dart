@@ -1,7 +1,9 @@
-import 'dart:math';
+// import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:intl/intl.dart';
+// import 'package:intl/date_symbol_data_local.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
@@ -11,7 +13,7 @@ void main() {
 
 class SensorData {
   SensorData(this.date, this.value);
-  final String date;
+  final DateTime date;
   final double value;
 }
 
@@ -51,17 +53,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> getGraph() async {
-    String data = await rootBundle.loadString("10559.json"); // 10559 or 10839
+    String data =
+        await rootBundle.loadString("assets/10559.json"); // 10559 or 10839
     Map<String, dynamic> rawLinesData = jsonDecode(data);
     String sensorId = rawLinesData.keys.first;
     List<SensorData> yThickness = []; // temp array
     List<SensorData> yTemperature = []; // temp array
 
     for (var timeEntry in rawLinesData.entries.first.value.entries) {
-      var timestamp = timeEntry.key.toString().split("T")[0];
-      if (!timestamp.startsWith('2023')) {
+      var timestampAsStr = timeEntry.key.toString();
+      if (!timestampAsStr.startsWith('2023')) {
+        // Cropping by 2023 year
         continue;
       }
+      DateTime timestamp = DateTime.parse(timestampAsStr);
 
       var yThick = timeEntry.value["thickness"];
       var yTemp = timeEntry.value["temperature"];
@@ -69,6 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
       yThickness.add(SensorData(timestamp, yThick));
       yTemperature.add(SensorData(timestamp, yTemp));
     }
+    yThickness.sort((a, b) => a.date.compareTo(b.date));
+    yTemperature.sort((a, b) => a.date.compareTo(b.date));
 
     setState(() {
       thicknessValues = yThickness;
@@ -109,8 +116,11 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
                 child: SfCartesianChart(
                     title: ChartTitle(text: sensorTitle),
-                    primaryXAxis:
-                        CategoryAxis(title: AxisTitle(text: 'Дата и время')),
+                    primaryXAxis: DateTimeAxis(
+                      title: AxisTitle(text: 'Дата и время'),
+                      dateFormat: DateFormat('yyyy-MM-dd HH:mm'),
+                      intervalType: DateTimeIntervalType.auto,
+                    ),
                     primaryYAxis: NumericAxis(
                         title: AxisTitle(text: 'Потеря металла, мм')),
                     zoomPanBehavior: ZoomPanBehavior(
@@ -127,22 +137,19 @@ class _MyHomePageState extends State<MyHomePage> {
                       lineDashArray: <double>[5, 5],
                     ),
                     axes: [
-                  NumericAxis(
-                      name: 'thickAxis',
-                      opposedPosition: true,
-                      minimum: -20,
-                      maximum: 20,
-                      title: AxisTitle(text: 'Скорость коррозии, мм/год')),
+                  // NumericAxis(
+                  //     name: 'thickAxis',
+                  //     opposedPosition: true,
+                  //     // minimum: -20,
+                  //     // maximum: 20,
+                  //     title: AxisTitle(text: 'Скорость коррозии, мм/год')),
                   NumericAxis(
                       name: 'tempAxis',
                       opposedPosition: true,
-                      minimum: -1,
-                      maximum: 1,
-                      interval: 1,
                       title: AxisTitle(text: 'Температура, С')),
                 ],
                     series: <ChartSeries>[
-                  LineSeries<SensorData, String>(
+                  LineSeries<SensorData, DateTime>(
                     dataSource: thicknessValues,
                     xValueMapper: (SensorData sensorData, _) => sensorData.date,
                     yValueMapper: (SensorData sensorData, _) =>
@@ -155,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   //     yValueMapper: (SensorData sensorData, _) =>
                   //         sensorData.value,
                   //     yAxisName: 'thickAxis'),
-                  LineSeries<SensorData, String>(
+                  LineSeries<SensorData, DateTime>(
                       dataSource: temperatureValues,
                       xValueMapper: (SensorData sensorData, _) =>
                           sensorData.date,

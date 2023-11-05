@@ -1,9 +1,87 @@
-<mxfile host="app.diagrams.net" modified="2023-11-05T21:55:24.638Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" version="22.0.8" etag="D0wiSWks7zZkFIRDVE55" type="github">
+<mxfile host="app.diagrams.net" modified="2023-11-05T22:13:39.702Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" etag="8Iam9RRP0yhSaRfNtkcl" version="22.0.8" type="github">
   <diagram name="Page-1" id="OzjeDyeltKJja1C1gzpL">
-    <mxGraphModel>
+    <mxGraphModel dx="925" dy="505" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="500" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="L4riw5L5GcA7lg0mlISF-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="L4riw5L5GcA7lg0mlISF-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="800" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L4riw5L5GcA7lg0mlISF-8" value="Universal json" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="L4riw5L5GcA7lg0mlISF-7">
+          <mxGeometry x="0.2963" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L4riw5L5GcA7lg0mlISF-1" value="Python CSV Adapter" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="480" y="170" width="150" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="L4riw5L5GcA7lg0mlISF-4" value="csv" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="L4riw5L5GcA7lg0mlISF-3" target="L4riw5L5GcA7lg0mlISF-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="530" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L4riw5L5GcA7lg0mlISF-3" value="Sensor A" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.direct_data;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="180" y="90" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="L4riw5L5GcA7lg0mlISF-6" value="csv" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="L4riw5L5GcA7lg0mlISF-5" target="L4riw5L5GcA7lg0mlISF-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L4riw5L5GcA7lg0mlISF-5" value="Sensor B" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.direct_data;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="360" y="10" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="L4riw5L5GcA7lg0mlISF-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.595;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.447;entryY=-0.012;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="L4riw5L5GcA7lg0mlISF-10" target="L4riw5L5GcA7lg0mlISF-16">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="940" y="340" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="905" y="280" />
+              <mxPoint x="905" y="360" />
+              <mxPoint x="1050" y="360" />
+              <mxPoint x="1050" y="428" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L4riw5L5GcA7lg0mlISF-10" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.database;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="800" y="180" width="210" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="L4riw5L5GcA7lg0mlISF-9" value="SensorA.json" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_2;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="820" y="220" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="L4riw5L5GcA7lg0mlISF-13" value="SensorB.json" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_2;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="900" y="220" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="L4riw5L5GcA7lg0mlISF-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="L4riw5L5GcA7lg0mlISF-14" target="L4riw5L5GcA7lg0mlISF-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L4riw5L5GcA7lg0mlISF-18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="L4riw5L5GcA7lg0mlISF-14" target="L4riw5L5GcA7lg0mlISF-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L4riw5L5GcA7lg0mlISF-19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="L4riw5L5GcA7lg0mlISF-14" target="L4riw5L5GcA7lg0mlISF-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L4riw5L5GcA7lg0mlISF-14" value="Server, i.e. FireBase" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;direction=south;" vertex="1" parent="1">
+          <mxGeometry x="840" y="140" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="L4riw5L5GcA7lg0mlISF-15" value="Arctex app" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="730" y="430" width="160" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="L4riw5L5GcA7lg0mlISF-16" value="Arctex website" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="960" y="430" width="200" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="L4riw5L5GcA7lg0mlISF-20" value="Remote requests" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.471;entryY=0.019;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="L4riw5L5GcA7lg0mlISF-10" target="L4riw5L5GcA7lg0mlISF-15">
+          <mxGeometry x="-0.6863" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="905" y="360" />
+              <mxPoint x="805" y="360" />
+              <mxPoint x="805" y="432" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L4riw5L5GcA7lg0mlISF-22" value="Flutter controler" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=right;labelPosition=left;pointerEvents=1;verticalLabelPosition=middle;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="660" y="400" width="50" height="260" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>

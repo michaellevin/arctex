@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
-// import 'package:intl/date_symbol_data_local.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 

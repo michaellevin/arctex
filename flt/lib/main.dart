@@ -112,19 +112,22 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SideMenu(
-            // Page controller to manage a PageView
-            controller: sideMenu,
-            // Will shows on top of all items, it can be a logo or a Title text
-            // title: Image.asset('assets/images/easy_sidemenu.png'),
-            // Will show on bottom of SideMenu when displayMode was SideMenuDisplayMode.open
-            // footer: Text('demo'),
-            // Notify when display mode changed
-            // onDisplayModeChanged: (mode) {
-            //   print(mode);
-            // },
-            // List of SideMenuItem to show them on SideMenu
-            items: items,
+          SizedBox(
+            width: 200,
+            child: SideMenu(
+              // Page controller to manage a PageView
+              controller: sideMenu,
+              // Will shows on top of all items, it can be a logo or a Title text
+              // title: Image.asset('assets/images/easy_sidemenu.png'),
+              // Will show on bottom of SideMenu when displayMode was SideMenuDisplayMode.open
+              // footer: Text('demo'),
+              // Notify when display mode changed
+              // onDisplayModeChanged: (mode) {
+              //   print(mode);
+              // },
+              // List of SideMenuItem to show them on SideMenu
+              items: items,
+            ),
           ),
 
           Expanded(

@@ -1,3 +1,4 @@
+import 'package:arktech/widgets/tree_widget.dart';
 import 'package:flutter/material.dart';
 
 
@@ -12,6 +13,11 @@ class AssetsPage extends StatefulWidget {
 class _AssetsPageState extends State<AssetsPage> {
   @override
   Widget build(BuildContext context) {
-    return const Text("Assets");
+    return Row(
+      children: [
+        TreeWidget(),
+        // Expanded(child: const Text("Assets")),
+      ],
+    );
   }
 }

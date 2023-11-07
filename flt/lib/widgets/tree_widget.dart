@@ -4,13 +4,19 @@ import 'package:flutter/material.dart';
 
 class TreeWidget extends StatelessWidget {
 
-  TreeNode simpleTree = TreeNode.root();
+  TreeNode simpleTree = TreeNode.root(data: {"title": "Root"});
 
   TreeWidget({super.key}) {
-    var l3Node = TreeNode(key: "key L3");
-    var l2Node = TreeNode(key: "key L2");
+    var l11Node = TreeNode(data: {"title": 'ОАО "Нефтегаз"'});
+    var l12Node = TreeNode(data: {"title": 'ОАО "Нефтегаз/Добыча"'});
+    var l1Node = TreeNode(data: {"title": 'ПАО "Газпром"'});
+    var l2Node = TreeNode(data: {"title": 'Блок "Разведка/Добыча"'});
+    var l3Node = TreeNode(data: {"title": 'ООО "Газпрос добыча Уренгой"'});
+    l1Node.add(l2Node);
     l2Node.add(l3Node);
-    simpleTree.add(l2Node);
+    simpleTree.add(l1Node);
+    l11Node.add(l12Node);
+    simpleTree.add(l11Node);
   }
 
 
@@ -21,11 +27,12 @@ class TreeWidget extends StatelessWidget {
       width: 300,
       child: TreeView.simple(
         tree: simpleTree,
+        showRootNode: false,
         builder: (context, node) {
             // build your node item here
             // return any widget that you need
             return ListTile(
-              title: Text("Item ${node.level}-${node.key}"),
+              title: Text("${node.data['title']}"),
               subtitle: Text('Level ${node.level}'),
               onTap: () => print(node.key),
             );

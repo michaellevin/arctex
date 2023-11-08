@@ -67,7 +67,8 @@ flutter:
   assets:
     - assets/10559.json
     - assets/10839.json
-    - assets/australia.json
+    - assets/countries.geojson
+    - assets/custom.geo.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

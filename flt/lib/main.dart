@@ -106,8 +106,15 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
+        elevation: 1.0,
+        centerTitle: true,
+        leading: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            child: Icon(Icons.portrait),
+          ),
+        ),
       ),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.start,

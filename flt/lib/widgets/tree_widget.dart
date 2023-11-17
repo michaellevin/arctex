@@ -1,24 +1,34 @@
 import 'package:animated_tree_view/animated_tree_view.dart';
+import 'package:animated_tree_view/tree_view/tree_view_state_helper.dart';
 import 'package:flutter/material.dart';
 
 
 class TreeWidget extends StatelessWidget {
+  final Function(Map<String, String>) onSelect;
+  final TreeNode simpleTree = TreeNode.root(data: {"title": "Root"});
+  final List<dynamic> companies;
 
-  TreeNode simpleTree = TreeNode.root(data: {"title": "Root"});
-
-  TreeWidget({super.key}) {
-    var l11Node = TreeNode(data: {"title": 'ОАО "Нефтегаз"'});
-    var l12Node = TreeNode(data: {"title": 'ОАО "Нефтегаз/Добыча"'});
-    var l1Node = TreeNode(data: {"title": 'ПАО "Газпром"'});
-    var l2Node = TreeNode(data: {"title": 'Блок "Разведка/Добыча"'});
-    var l3Node = TreeNode(data: {"title": 'ООО "Газпрос добыча Уренгой"'});
-    l1Node.add(l2Node);
-    l2Node.add(l3Node);
-    simpleTree.add(l1Node);
-    l11Node.add(l12Node);
-    simpleTree.add(l11Node);
+  TreeWidget(this.companies, this.onSelect, {super.key}) {
+    buildTree();
   }
 
+  void addRoot(List<dynamic> list, String owner) {
+    var pageFiltered = list.where((element) => element["Owner"] == owner);
+    
+    var node = TreeNode(data: {"title": owner});
+
+    for (var c in pageFiltered) {
+      var n = TreeNode(data: {"title": c["Unit name"] as String});
+      node.add(n);
+    }
+
+    simpleTree.add(node);
+  }
+
+  void buildTree() async {
+    addRoot(companies, "Gazprom");
+    addRoot(companies, "Rosneft");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +38,13 @@ class TreeWidget extends StatelessWidget {
       child: TreeView.simple(
         tree: simpleTree,
         showRootNode: false,
+        onItemTap: (nodeData) => onSelect(nodeData.data),
         builder: (context, node) {
             // build your node item here
             // return any widget that you need
             return ListTile(
               title: Text("${node.data['title']}"),
               subtitle: Text('Level ${node.level}'),
-              onTap: () => print(node.key),
             );
         }
       )

@@ -1,13 +1,8 @@
+import 'dart:convert';
+import 'package:arktech/widgets/map_widget.dart';
 import 'package:arktech/widgets/tree_widget.dart';
-import 'package:syncfusion_flutter_maps/maps.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-
-
-/// Collection of Australia state code data.
-class Model {
-  final String state;
-  const Model(this.state);
-}
 
 
 class AssetsPage extends StatefulWidget {
@@ -19,51 +14,48 @@ class AssetsPage extends StatefulWidget {
 
 
 class _AssetsPageState extends State<AssetsPage> {
-  late MapShapeSource _mapSource;
-  late List<Model> _data;
+  List<dynamic> _companies = [];
+  final GlobalKey<MapWidgetState> _mapKey = GlobalKey();
+
+  void getCompData() async {
+    var compData = await rootBundle.loadString('assets/companies.json');
+    var compRaw = jsonDecode(compData);
+    setState(() {
+      _companies = compRaw["companies"];      
+    });
+  }
 
   @override
   void initState() {
-    _mapSource = MapShapeSource.asset(
-      'assets/custom.geo.json',
-      shapeDataField: 'sovereignt',
-    );
     super.initState();
+    getCompData();
+  }
+
+  void onSelect(Map<String, String> nodeData) {
+    print("selected: $nodeData");
+
+    List<Map<String, dynamic>> mrks = [];
+    var filtComps = _companies.where((element) => element["Owner"] == nodeData["title"]);
+    for (var i in filtComps) {
+      if (i["Longitude"] == "" || i["Latitude"] == "") {
+        continue;
+      }
+      mrks.add({
+        "name": i["Unit name"],
+        "long": i["Longitude"],
+        "lat": i["Latitude"],
+      });
+    }
+    print("Markers count: ${mrks.length}");
+    _mapKey.currentState!.doSomething(mrks);
   }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        TreeWidget(),
-        Expanded(
-          child: SfMaps(
-            layers: [
-              MapShapeLayer(
-                source: _mapSource,
-                // zoomPanBehavior: MapZoomPanBehavior(),
-              ),
-              MapShapeLayer(
-                source: _mapSource,
-                initialMarkersCount: 5,
-                zoomPanBehavior: MapZoomPanBehavior(
-                  enableMouseWheelZooming: true
-                ),
-                markerBuilder: (BuildContext context, int index) {
-                  return MapMarker(
-                    latitude: 61.52401,
-                    longitude: 105.318756,
-                    iconColor: Colors.blue,
-                    child: ElevatedButton(
-                      child: Text("M"),
-                      onPressed: () => print("pressed"),
-                    ),
-                  );
-                },
-              ),              
-            ]
-          )
-        ),
+        TreeWidget(_companies, onSelect),
+        MapWidget(key: _mapKey),
       ],
     );
   }

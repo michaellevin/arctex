@@ -7,6 +7,11 @@ import 'package:arktech/pages/scheduling_page.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:intl/intl.dart';
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+
 
 void main() {
   runApp(const MyApp());

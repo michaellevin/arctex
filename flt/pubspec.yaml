@@ -37,6 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   syncfusion_flutter_charts: ^23.1.43
   intl: ^0.18.1
+  easy_sidemenu: ^0.5.0
+  animated_tree_view: ^2.1.0
+  syncfusion_flutter_maps: ^23.1.44
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +67,9 @@ flutter:
   assets:
     - assets/10559.json
     - assets/10839.json
+    - assets/countries.geojson
+    - assets/custom.geo.json
+    - assets/companies.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

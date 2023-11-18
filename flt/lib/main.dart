@@ -1,20 +1,22 @@
-// import 'dart:math';
-
+import 'package:arktech/pages/analisys_page.dart';
+import 'package:arktech/pages/assets_page.dart';
+import 'package:arktech/pages/inspection_page.dart';
+import 'package:arktech/pages/monitoring_page.dart';
+import 'package:arktech/pages/reliability_page.dart';
+import 'package:arktech/pages/scheduling_page.dart';
+import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
+
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
+
 void main() {
   runApp(const MyApp());
 }
 
-class SensorData {
-  SensorData(this.date, this.value);
-  final DateTime date;
-  final double value;
-}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -32,6 +34,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
   final String title;
@@ -41,136 +44,118 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<SensorData> thicknessValues = [];
-  List<SensorData> temperatureValues = [];
-  String sensorTitle = "";
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getGraph();
+  PageController pageController = PageController();
+  SideMenuController sideMenu = SideMenuController();
+  List<SideMenuItem> items = [];
+
+  _MyHomePageState() {
+    items = [
+      SideMenuItem(
+        title: 'Assets',
+        onTap: (index, _) {
+          sideMenu.changePage(index);
+        },
+        icon: const Icon(Icons.diamond_outlined),
+        // badgeContent: Text(
+        //   '3',
+        //   style: TextStyle(color: Colors.white),
+        // ),
+      ),
+      SideMenuItem(
+        title: 'Monitoring',
+        onTap: (index, _) {
+          sideMenu.changePage(index);
+        },
+        icon: const Icon(Icons.auto_graph),
+      ),
+      SideMenuItem(
+        title: 'Inspection',
+        onTap: (index, _) {
+          sideMenu.changePage(index);
+        },
+        icon: const Icon(Icons.insert_chart_outlined_outlined),
+      ),      
+      SideMenuItem(
+        title: 'Reliability',
+        onTap: (index, _) {
+          sideMenu.changePage(index);
+        },
+        icon: const Icon(Icons.pie_chart_outline),
+      ),         
+      SideMenuItem(
+        title: 'Analisys',
+        onTap: (index, _) {
+          sideMenu.changePage(index);
+        },
+        icon: const Icon(Icons.speed),
+      ),               
+      SideMenuItem(
+        title: 'Scheduling',
+        onTap: (index, _) {
+          sideMenu.changePage(index);
+        },
+        icon: const Icon(Icons.calendar_month_outlined),
+      ),            
+    ];
   }
 
-  Future<void> getGraph() async {
-    String data =
-        await rootBundle.loadString("assets/10559.json"); // 10559 or 10839
-    Map<String, dynamic> rawLinesData = jsonDecode(data);
-    String sensorId = rawLinesData.keys.first;
-    List<SensorData> yThickness = []; // temp array
-    List<SensorData> yTemperature = []; // temp array
-
-    for (var timeEntry in rawLinesData.entries.first.value.entries) {
-      var timestampAsStr = timeEntry.key.toString();
-      if (!timestampAsStr.startsWith('2023')) {
-        // Cropping by 2023 year
-        continue;
-      }
-      DateTime timestamp = DateTime.parse(timestampAsStr);
-
-      var yThick = timeEntry.value["thickness"];
-      var yTemp = timeEntry.value["temperature"];
-
-      yThickness.add(SensorData(timestamp, yThick));
-      yTemperature.add(SensorData(timestamp, yTemp));
-    }
-    yThickness.sort((a, b) => a.date.compareTo(b.date));
-    yTemperature.sort((a, b) => a.date.compareTo(b.date));
-
-    setState(() {
-      thicknessValues = yThickness;
-      temperatureValues = yTemperature;
-      sensorTitle = sensorId;
+  @override
+  void initState() {
+    sideMenu.addListener((index) {
+      pageController.jumpToPage(index);
     });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
-      ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              color: Colors.black,
-              width: 65,
-              child: const Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.auto_graph,
-                    color: Colors.white,
-                    size: 35,
-                  ),
-                  Icon(Icons.gavel_sharp, color: Colors.white, size: 35),
-                  Icon(Icons.settings, color: Colors.white, size: 35),
-                  Icon(Icons.person, color: Colors.white, size: 35),
-                  Icon(Icons.refresh, color: Colors.white, size: 35),
-                ],
-              ),
-            ),
-            Expanded(
-                child: SfCartesianChart(
-                    title: ChartTitle(text: sensorTitle),
-                    primaryXAxis: DateTimeAxis(
-                      title: AxisTitle(text: 'Дата и время'),
-                      dateFormat: DateFormat('yyyy-MM-dd HH:mm'),
-                      intervalType: DateTimeIntervalType.auto,
-                    ),
-                    primaryYAxis: NumericAxis(
-                        title: AxisTitle(text: 'Потеря металла, мм')),
-                    zoomPanBehavior: ZoomPanBehavior(
-                      enableMouseWheelZooming: true,
-                      enablePanning: true,
-                    ),
-                    crosshairBehavior: CrosshairBehavior(
-                      shouldAlwaysShow: true,
-                      enable: true,
-                      lineType: CrosshairLineType.both,
-                      activationMode: ActivationMode.singleTap,
-                      lineColor: Colors.red,
-                      lineWidth: 1,
-                      lineDashArray: <double>[5, 5],
-                    ),
-                    axes: [
-                  // NumericAxis(
-                  //     name: 'thickAxis',
-                  //     opposedPosition: true,
-                  //     // minimum: -20,
-                  //     // maximum: 20,
-                  //     title: AxisTitle(text: 'Скорость коррозии, мм/год')),
-                  NumericAxis(
-                      name: 'tempAxis',
-                      opposedPosition: true,
-                      title: AxisTitle(text: 'Температура, С')),
-                ],
-                    series: <ChartSeries>[
-                  LineSeries<SensorData, DateTime>(
-                    dataSource: thicknessValues,
-                    xValueMapper: (SensorData sensorData, _) => sensorData.date,
-                    yValueMapper: (SensorData sensorData, _) =>
-                        sensorData.value,
-                  ),
-                  // ColumnSeries<SensorData, String>(
-                  //     dataSource: temperatureValues,
-                  //     xValueMapper: (SensorData sensorData, _) =>
-                  //         sensorData.date,
-                  //     yValueMapper: (SensorData sensorData, _) =>
-                  //         sensorData.value,
-                  //     yAxisName: 'thickAxis'),
-                  LineSeries<SensorData, DateTime>(
-                      dataSource: temperatureValues,
-                      xValueMapper: (SensorData sensorData, _) =>
-                          sensorData.date,
-                      yValueMapper: (SensorData sensorData, _) =>
-                          sensorData.value,
-                      yAxisName: 'tempAxis'),
-                ]))
-          ],
+        elevation: 1.0,
+        centerTitle: true,
+        leading: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            child: Icon(Icons.portrait),
+          ),
         ),
+      ),
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 200,
+            child: SideMenu(
+              // Page controller to manage a PageView
+              controller: sideMenu,
+              // Will shows on top of all items, it can be a logo or a Title text
+              // title: Image.asset('assets/images/easy_sidemenu.png'),
+              // Will show on bottom of SideMenu when displayMode was SideMenuDisplayMode.open
+              // footer: Text('demo'),
+              // Notify when display mode changed
+              // onDisplayModeChanged: (mode) {
+              //   print(mode);
+              // },
+              // List of SideMenuItem to show them on SideMenu
+              items: items,
+            ),
+          ),
+
+          Expanded(
+            child: PageView(
+              controller: pageController,
+              children: const [
+                AssetsPage(),
+                MonitoringPage(),
+                InspectionPage(),
+                ReliabilityPage(),
+                AnalisysPage(),
+                SchedulingPage()
+              ],
+            ),
+          ),          
+        ],
       ),
     );
   }

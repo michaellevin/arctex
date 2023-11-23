@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:arktech/widgets/l8_adding_form.dart';
 import 'package:arktech/widgets/map_widget.dart';
 import 'package:arktech/widgets/tree_widget.dart';
 import 'package:flutter/services.dart';
@@ -56,6 +57,7 @@ class _AssetsPageState extends State<AssetsPage> {
       children: [
         TreeWidget(_companies, onSelect),
         MapWidget(key: _mapKey),
+        // L8CreationEntryForm(),
       ],
     );
   }

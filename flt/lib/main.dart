@@ -4,13 +4,9 @@ import 'package:arktech/pages/inspection_page.dart';
 import 'package:arktech/pages/monitoring_page.dart';
 import 'package:arktech/pages/reliability_page.dart';
 import 'package:arktech/pages/scheduling_page.dart';
+import 'package:arktech/widgets/l8_adding_form.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
-
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:intl/intl.dart';
-import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
 
 
 void main() {
@@ -120,6 +116,25 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Icon(Icons.portrait),
           ),
         ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              // ScaffoldMessenger.of(context).showSnackBar(
+              //   const SnackBar(content: Text('Processing Data')),
+              // );
+              showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return Container(
+                    padding: EdgeInsets.all(16.0),
+                    child: L8CreationEntryForm(), // Your form widget goes here
+                  );
+                },
+              );     
+            },
+            child: const Text('Submit'),
+          )
+        ],
       ),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -141,7 +156,6 @@ class _MyHomePageState extends State<MyHomePage> {
               items: items,
             ),
           ),
-
           Expanded(
             child: PageView(
               controller: pageController,
@@ -154,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 SchedulingPage()
               ],
             ),
-          ),          
+          ),
         ],
       ),
     );

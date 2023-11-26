@@ -1,12 +1,14 @@
-import 'dart:convert';
+import 'package:arktech/database/database_connector.dart';
 import 'package:arktech/widgets/map_widget.dart';
 import 'package:arktech/widgets/tree_widget.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:mysql1/mysql1.dart';
 
 
 class AssetsPage extends StatefulWidget {
-  const AssetsPage({super.key});
+  final DatabaseConnector dbConnector;
+
+  const AssetsPage(this.dbConnector, {super.key});
 
   @override
   State<AssetsPage> createState() => _AssetsPageState();
@@ -14,15 +16,18 @@ class AssetsPage extends StatefulWidget {
 
 
 class _AssetsPageState extends State<AssetsPage> {
-  List<dynamic> _companies = [];
+  late Results _companies;
+
   final GlobalKey<MapWidgetState> _mapKey = GlobalKey();
 
   void getCompData() async {
-    var compData = await rootBundle.loadString('assets/companies.json');
-    var compRaw = jsonDecode(compData);
-    setState(() {
-      _companies = compRaw["companies"];      
-    });
+    // var compData = await rootBundle.loadString('assets/companies.json');
+    // var compRaw = jsonDecode(compData);
+    // setState(() {
+    //   _companies = compRaw["companies"];      
+    // });
+    _companies = await widget.dbConnector.getCompanies();
+    print(_companies);
   }
 
   @override
@@ -32,8 +37,6 @@ class _AssetsPageState extends State<AssetsPage> {
   }
 
   void onSelect(Map<String, String> nodeData) {
-    print("selected: $nodeData");
-
     List<Map<String, dynamic>> mrks = [];
     var filtComps = _companies.where((element) => element["Owner"] == nodeData["title"]);
     for (var i in filtComps) {
@@ -46,7 +49,7 @@ class _AssetsPageState extends State<AssetsPage> {
         "lat": i["Latitude"],
       });
     }
-    print("Markers count: ${mrks.length}");
+    
     _mapKey.currentState!.doSomething(mrks);
   }
 

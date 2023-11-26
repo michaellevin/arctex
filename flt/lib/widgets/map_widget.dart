@@ -36,13 +36,10 @@ class MapWidgetState extends State<MapWidget> {
     for (var i = 0; i < markers.length; i++) {
       _controller.insertMarker(i);
     }
-    print("Did something");
   }
 
   @override
   Widget build(BuildContext context) {
-    print("Map markers: ${_markers.length}");
-
     return Expanded(
       child: SfMaps(
         layers: [
@@ -60,9 +57,6 @@ class MapWidgetState extends State<MapWidget> {
             ),
             controller: _controller,
             markerBuilder: (BuildContext context, int index) {
-              print("build marker: $index");
-              print(_markers[index]["lat"]);
-              print(_markers[index]["long"]);
               return MapMarker(
                 latitude: _markers[index]["lat"],//61.52401,
                 longitude: _markers[index]["long"],//105.318756,

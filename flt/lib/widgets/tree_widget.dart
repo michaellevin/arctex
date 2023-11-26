@@ -1,12 +1,12 @@
 import 'package:animated_tree_view/animated_tree_view.dart';
-import 'package:animated_tree_view/tree_view/tree_view_state_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:mysql1/mysql1.dart';
 
 
 class TreeWidget extends StatelessWidget {
   final Function(Map<String, String>) onSelect;
   final TreeNode simpleTree = TreeNode.root(data: {"title": "Root"});
-  final List<dynamic> companies;
+  final Results companies;
 
   TreeWidget(this.companies, this.onSelect, {super.key}) {
     buildTree();
@@ -26,8 +26,15 @@ class TreeWidget extends StatelessWidget {
   }
 
   void buildTree() async {
-    addRoot(companies, "Gazprom");
-    addRoot(companies, "Rosneft");
+    // addRoot(companies, "Gazprom");
+    // addRoot(companies, "Rosneft");
+
+    for (var c in companies) {
+      // var node = TreeNode(data: {"title": c.});
+      print("adding root: $c");
+
+    }
+
   }
 
   @override

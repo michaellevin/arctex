@@ -1,3 +1,4 @@
+import 'package:arktech/database/database_connector.dart';
 import 'package:arktech/pages/analisys_page.dart';
 import 'package:arktech/pages/assets_page.dart';
 import 'package:arktech/pages/inspection_page.dart';
@@ -6,11 +7,7 @@ import 'package:arktech/pages/reliability_page.dart';
 import 'package:arktech/pages/scheduling_page.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
-
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:intl/intl.dart';
-import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:mysql1/mysql1.dart';
 
 
 void main() {
@@ -19,6 +16,7 @@ void main() {
 
 
 class MyApp extends StatelessWidget {
+
   const MyApp({super.key});
 
   @override
@@ -36,16 +34,21 @@ class MyApp extends StatelessWidget {
 
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
   final String title;
+
+  const MyHomePage({super.key, required this.title});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  PageController pageController = PageController();
-  SideMenuController sideMenu = SideMenuController();
+  final PageController pageController = PageController();
+  final SideMenuController sideMenu = SideMenuController();
+  
+  final DatabaseConnector dbConnector = DatabaseConnector();
+  String _currentDb = "gazprom";
+
   List<SideMenuItem> items = [];
 
   _MyHomePageState() {
@@ -56,10 +59,6 @@ class _MyHomePageState extends State<MyHomePage> {
           sideMenu.changePage(index);
         },
         icon: const Icon(Icons.diamond_outlined),
-        // badgeContent: Text(
-        //   '3',
-        //   style: TextStyle(color: Colors.white),
-        // ),
       ),
       SideMenuItem(
         title: 'Monitoring',
@@ -97,6 +96,8 @@ class _MyHomePageState extends State<MyHomePage> {
         icon: const Icon(Icons.calendar_month_outlined),
       ),            
     ];
+
+    _connectToDatabase();
   }
 
   @override
@@ -105,6 +106,17 @@ class _MyHomePageState extends State<MyHomePage> {
       pageController.jumpToPage(index);
     });
     super.initState();
+  }
+
+  void _connectToDatabase() async {
+    await dbConnector.connect(_currentDb);
+  }
+
+  void _switchDatabase(String newDatabase) {
+    setState(() {
+      _currentDb = newDatabase;
+    });
+    _connectToDatabase();
   }
 
   @override
@@ -116,10 +128,31 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         leading: const Padding(
           padding: EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            child: Icon(Icons.portrait),
-          ),
+          child: CircleAvatar(child: Icon(Icons.portrait)),
         ),
+        actions: [
+          PopupMenuButton(
+            icon: const Icon(Icons.settings),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 0,
+                child: SubmenuButton(
+                  menuChildren: [
+                    PopupMenuItem(
+                      onTap: () => _switchDatabase("gazprom"),
+                      child: const Text("Gazprom")
+                    ),
+                    PopupMenuItem(
+                      onTap: () => _switchDatabase("rosneft"),
+                      child: const Text("Rosneft")
+                    ),
+                  ], 
+                  child: const Text("Databases")
+              ),
+              )
+            ]
+          )
+        ],
       ),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -145,8 +178,8 @@ class _MyHomePageState extends State<MyHomePage> {
           Expanded(
             child: PageView(
               controller: pageController,
-              children: const [
-                AssetsPage(),
+              children: [
+                AssetsPage(dbConnector),
                 MonitoringPage(),
                 InspectionPage(),
                 ReliabilityPage(),

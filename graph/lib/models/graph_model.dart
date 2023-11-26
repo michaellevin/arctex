@@ -42,6 +42,8 @@ class Well extends GraphModel {
 
 
 class Pipeline extends GraphModel {
+  int get selectionThreshold => 5;
+
   Pipeline(super.latLng);
 
   double projDistance(Point<double> p1, Point<double> p2, Point<double> q) {
@@ -62,10 +64,11 @@ class Pipeline extends GraphModel {
 
   @override
   bool contains(MapCamera camera, Offset point) {
+    var zoomRatio = (camera.zoom - camera.minZoom!) / (camera.maxZoom! - camera.minZoom!);
     for (var i = 0; i < latLng.length - 1; i++) {
       var p1 = camera.latLngToScreenPoint(latLng[i]);
       var p2 = camera.latLngToScreenPoint(latLng[i+1]);
-      if (projDistance(p1, p2, point.toPoint()) < 10) {
+      if (projDistance(p1, p2, point.toPoint()) < selectionThreshold * max(0.1, zoomRatio)) {
         return true;
       }
     }

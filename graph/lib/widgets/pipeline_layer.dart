@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:graph/models/graph_model.dart';
@@ -15,6 +17,8 @@ class PipelineLayer extends StatefulWidget {
 
 class _PipelineLayerState extends State<PipelineLayer> {
   int selectionIndex = -1;
+  bool editMode = true;
+  bool forceRepaint = false;
 
   List<GraphModel> shapes = [
     Well([const LatLng(50.5, 30.5)]),
@@ -28,31 +32,52 @@ class _PipelineLayerState extends State<PipelineLayer> {
     ]),
   ];
 
+  void onTapDown(TapDownDetails details, MapCamera camera) {
+    for (var (i, n) in  shapes.indexed) {
+      if (n.contains(camera, details.globalPosition)) {
+        setState(() {
+          selectionIndex = i;
+        });
+        return;
+      }
+    }
+    setState(() {
+      selectionIndex = -1;
+    });
+  }
+
+  void onPanUpdate(DragUpdateDetails details, MapCamera camera) {
+    if (selectionIndex == -1) {
+      return;
+    }
+    shapes[selectionIndex].latLng.first = camera.pointToLatLng(details.globalPosition.toPoint());
+    setState(() {
+      forceRepaint = !forceRepaint;
+    });
+  }
+
+  void onPanEnd(DragEndDetails details) {
+    if (selectionIndex == -1) {
+      return;
+    }
+    setState(() {
+      forceRepaint = !forceRepaint;
+    });
+  }  
+
   @override
   Widget build(BuildContext context) { 
-    final camera = MapCamera.of(context);
-    final controller = MapController.of(context);
-    final options = MapOptions.of(context);
+    var camera = MapCamera.of(context);
+    var controller = MapController.of(context);
+    var options = MapOptions.of(context);
 
     return MobileLayerTransformer(
       child: GestureDetector(
-        onTapDown: (details) {
-          for (var (i, n) in  shapes.indexed) {
-            // var c = camera.latLngToScreenPoint(n);
-            // var rect = Rect.fromCenter(center: Offset(c.x, c.y), width: nodeWidth, height: nodeHeight);
-            if (n.contains(camera, details.globalPosition)) {
-              setState(() {
-                selectionIndex = i;
-              });
-              return;
-            }
-          }
-          setState(() {
-            selectionIndex = -1;
-          });
-        },
+        onTapDown: (details) => onTapDown(details, camera),
+        onPanUpdate: editMode ? (details) => onPanUpdate(details, camera) : null,
+        onPanEnd: editMode ? (details) => onPanEnd(details) : null,
         child: CustomPaint(
-          painter: PipelinePainter(camera, shapes, selectionIndex),
+          painter: PipelinePainter(camera, shapes, selectionIndex, forceRepaint),
         ),
       )
     );

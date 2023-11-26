@@ -21,8 +21,9 @@ class PipelinePainter extends CustomPainter {
 
   List<GraphModel> shapes;
   int selectionIndex;
+  bool forceUpdateOnEdit;
 
-  PipelinePainter(this.camera, this.shapes, this.selectionIndex);
+  PipelinePainter(this.camera, this.shapes, this.selectionIndex, this.forceUpdateOnEdit);
 
   Paint getPaint(GraphModel model, int index) {
     if (model is Pipeline) {
@@ -42,6 +43,7 @@ class PipelinePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(PipelinePainter oldDelegate) {
-    return selectionIndex != oldDelegate.selectionIndex;
+    return selectionIndex != oldDelegate.selectionIndex
+           || forceUpdateOnEdit != oldDelegate.forceUpdateOnEdit;
   }
 }

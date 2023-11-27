@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:graph/models/graph_model.dart';
-
+import 'package:graph/models/pipeline.dart';
 
 class PipelinePainter extends CustomPainter {
-  Paint highlightPaint = Paint()
-    ..color = Colors.yellow;
-  Paint wellPaint = Paint()
-    ..color = Colors.blue;
+  Paint highlightPaint = Paint()..color = Colors.yellow;
+  Paint wellPaint = Paint()..color = Colors.blue;
   Paint strokePaint = Paint()
     ..color = Colors.green
     ..style = PaintingStyle.stroke
@@ -23,7 +21,8 @@ class PipelinePainter extends CustomPainter {
   int selectionIndex;
   bool forceUpdateOnEdit;
 
-  PipelinePainter(this.camera, this.shapes, this.selectionIndex, this.forceUpdateOnEdit);
+  PipelinePainter(
+      this.camera, this.shapes, this.selectionIndex, this.forceUpdateOnEdit);
 
   Paint getPaint(GraphModel model, int index) {
     if (model is Pipeline) {
@@ -43,7 +42,7 @@ class PipelinePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(PipelinePainter oldDelegate) {
-    return selectionIndex != oldDelegate.selectionIndex
-           || forceUpdateOnEdit != oldDelegate.forceUpdateOnEdit;
+    return selectionIndex != oldDelegate.selectionIndex ||
+        forceUpdateOnEdit != oldDelegate.forceUpdateOnEdit;
   }
 }

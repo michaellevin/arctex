@@ -67,8 +67,8 @@ class _PipelineLayerState extends State<PipelineLayer> {
   @override
   Widget build(BuildContext context) {
     var camera = MapCamera.of(context);
-    var controller = MapController.of(context);
-    var options = MapOptions.of(context);
+    // var controller = MapController.of(context);
+    // var options = MapOptions.of(context);
 
     return MobileLayerTransformer(
         child: GestureDetector(

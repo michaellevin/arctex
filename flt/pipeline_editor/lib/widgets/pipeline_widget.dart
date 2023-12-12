@@ -20,7 +20,7 @@ class _PipelineWidgetState extends State<PipelineWidget> {
           maxZoom: 17,
           interactionOptions: InteractionOptions(
             // Disable default map interactions
-            flags: InteractiveFlag.none
+            // flags: InteractiveFlag.none
           )
         ),
         children: [

@@ -21,7 +21,6 @@ class SensorBloc extends Bloc<SensorEvent, SensorState> {
 
   void _readData(SensorReadEvent event, Emitter emit) async {
     var data = await SensorDataProvider.readData(event.sensorId);
-    print("SensorBlocData: $data");
     emit(SensorReadyState(data));
   }
 }

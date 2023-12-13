@@ -56,6 +56,13 @@ class _MyHomePageState extends State<MyHomePage> {
   _MyHomePageState() {
     _menuItems = [
       SideMenuItem(
+        title: 'Home',
+        onTap: (index, _) {
+          _sideMenu.changePage(index);
+        },
+        icon: const Icon(Icons.home_outlined),
+      ),           
+      SideMenuItem(
         title: 'Assets',
         onTap: (index, _) {
           _sideMenu.changePage(index);
@@ -71,36 +78,15 @@ class _MyHomePageState extends State<MyHomePage> {
         onTap: (index, _) {
           _sideMenu.changePage(index);
         },
-        icon: const Icon(Icons.auto_graph),
-      ),
+        icon: const Icon(Icons.bar_chart_outlined),
+      ), 
       SideMenuItem(
-        title: 'Inspection',
+        title: 'System',
         onTap: (index, _) {
           _sideMenu.changePage(index);
         },
-        icon: const Icon(Icons.insert_chart_outlined_outlined),
-      ),      
-      SideMenuItem(
-        title: 'Reliability',
-        onTap: (index, _) {
-          _sideMenu.changePage(index);
-        },
-        icon: const Icon(Icons.pie_chart_outline),
-      ),         
-      SideMenuItem(
-        title: 'Analisys',
-        onTap: (index, _) {
-          _sideMenu.changePage(index);
-        },
-        icon: const Icon(Icons.speed),
-      ),               
-      SideMenuItem(
-        title: 'Scheduling',
-        onTap: (index, _) {
-          _sideMenu.changePage(index);
-        },
-        icon: const Icon(Icons.calendar_month_outlined),
-      ),            
+        icon: const Icon(Icons.admin_panel_settings_outlined),
+      ),       
     ];
   }
 
@@ -152,12 +138,10 @@ class _MyHomePageState extends State<MyHomePage> {
             child: PageView(
               controller: _pageController,
               children: const [
+                ReliabilityPage(),
                 AssetsPage(),
                 MonitoringPage(),
                 InspectionPage(),
-                ReliabilityPage(),
-                AnalisysPage(),
-                SchedulingPage()
               ],
             ),
           ),          

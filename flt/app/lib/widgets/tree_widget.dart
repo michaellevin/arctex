@@ -1,14 +1,13 @@
 import 'package:animated_tree_view/animated_tree_view.dart';
 import 'package:arktech/bloc/sensor_data_bloc.dart';
-import 'package:arktech/models/pipeline_model.dart';
+import 'package:arktech/models/itree_node_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class TreeWidget extends StatelessWidget {
-  // final Function(Map<String, String>) _onSelect;
-  final TreeNode<PipelineModel> _simpleTree = TreeNode.root(data: PipelineModel(id: "root", name: "root"));
-  final List<PipelineModel> _pipelines;
+  final TreeNode<ITreeNodeModel> _simpleTree = TreeNode.root(data: ITreeNodeModel(id: "root", name: "root", type: TreeNodeType.root));
+  final List<ITreeNodeModel> _pipelines;
 
   TreeWidget(this._pipelines, {super.key}) {
     buildTree();

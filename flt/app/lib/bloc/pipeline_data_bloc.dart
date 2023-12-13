@@ -1,4 +1,4 @@
-import 'package:arktech/models/pipeline_model.dart';
+import 'package:arktech/models/itree_node_model.dart';
 import 'package:arktech/tools/pipeline_data_provider.dart';
 import 'package:bloc/bloc.dart';
 
@@ -8,7 +8,7 @@ class PipelineDataAddEvent extends PipelineDataEvent {}
 
 class PipelineDataState {}
 class PipelineDataReadyState extends PipelineDataState {
-  final List<PipelineModel> pipelines;
+  final List<ITreeNodeModel> pipelines;
   PipelineDataReadyState(this.pipelines);
 }
 

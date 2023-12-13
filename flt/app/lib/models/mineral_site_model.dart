@@ -1,19 +1,19 @@
 import 'package:arktech/models/itree_node_model.dart';
 
-class PipelineModel extends ITreeNodeModel {
-  PipelineModel({
+class MineralSiteModel extends ITreeNodeModel {  
+  MineralSiteModel({
     required String id,
     String? parentId,
     required String name,
     required TreeNodeType type,
   })  : super(id: id, parentId: parentId, name: name, type: type);
 
-  static PipelineModel fromJson(Map<String, dynamic> json) {
-    return PipelineModel(
+  static MineralSiteModel fromJson(Map<String, dynamic> json) {
+    return MineralSiteModel(
       id: json['id'],
       parentId: json['parentId'],
       name: json['name'],
-      type: TreeNodeType.pipeline,
+      type: TreeNodeType.company,
     );
   }
 }

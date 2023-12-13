@@ -144,7 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       opposedPosition: true,
                       title: AxisTitle(text: 'Температура, С')),
                 ],
-                    series: <ChartSeries>[
+                series: <ChartSeries>[
                   LineSeries<SensorData, DateTime>(
                     dataSource: thicknessValues,
                     xValueMapper: (SensorData sensorData, _) => sensorData.date,

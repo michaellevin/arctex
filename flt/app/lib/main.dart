@@ -1,4 +1,5 @@
 import 'package:arktech/bloc/pipeline_data_bloc.dart';
+import 'package:arktech/bloc/sensor_data_bloc.dart';
 import 'package:arktech/tools/pipeline_data_provider.dart';
 import 'package:arktech/pages/analisys_page.dart';
 import 'package:arktech/pages/assets_page.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
       home: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => PipelineDataBloc()),
+          BlocProvider(create: (context) => SensorBloc()),
         ],
         child: const MyHomePage(title: 'ARCTEX')),
     );

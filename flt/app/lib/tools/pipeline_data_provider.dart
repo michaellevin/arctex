@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:arktech/models/pipeline_model.dart';
 import 'package:path_provider/path_provider.dart';
 
-
 class PipelineDataProvider {
   static Future<List<PipelineModel>> readData() async {
     var docDir = await getApplicationDocumentsDirectory();

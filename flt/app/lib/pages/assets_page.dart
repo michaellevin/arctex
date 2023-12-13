@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:arktech/bloc/pipeline_data_bloc.dart';
 import 'package:arktech/widgets/map_widget.dart';
+import 'package:arktech/widgets/sensor_graph_widget.dart';
 import 'package:arktech/widgets/tree_widget.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -63,12 +64,13 @@ class _AssetsPageState extends State<AssetsPage> {
           children: [
             Expanded(
               flex: 1,
-              child: TreeWidget(state.pipelines, onSelect)
+              child: TreeWidget(state.pipelines)
             ),
-            // Expanded(
-            //   flex: 3,
-            //   child: MapWidget(key: _mapKey)
-            // )
+            Expanded(
+              flex: 3,
+              // child: MapWidget(key: _mapKey)
+              child: SensorDataWidget(),
+            )
           ]
         );
       }

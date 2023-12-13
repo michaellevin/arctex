@@ -1,50 +1,49 @@
 import 'package:animated_tree_view/animated_tree_view.dart';
-import 'package:animated_tree_view/tree_view/tree_view_state_helper.dart';
+import 'package:arktech/models/pipeline_model.dart';
 import 'package:flutter/material.dart';
 
 
 class TreeWidget extends StatelessWidget {
-  final Function(Map<String, String>) onSelect;
-  final TreeNode simpleTree = TreeNode.root(data: {"title": "Root"});
-  final List<dynamic> companies;
+  final Function(Map<String, String>) _onSelect;
+  final TreeNode<PipelineModel> _simpleTree = TreeNode.root(data: PipelineModel(id: "root", name: "root"));
+  final List<PipelineModel> _pipelines;
 
-  TreeWidget(this.companies, this.onSelect, {super.key}) {
+  TreeWidget(this._pipelines, this._onSelect, {super.key}) {
     buildTree();
   }
 
-  void addRoot(List<dynamic> list, String owner) {
-    var pageFiltered = list.where((element) => element["Owner"] == owner);
-    
-    var node = TreeNode(data: {"title": owner});
+  void buildTree() {
+    var nodes = _pipelines.map((e) => TreeNode(data: e)).toList();
 
-    for (var c in pageFiltered) {
-      var n = TreeNode(data: {"title": c["Unit name"] as String});
-      node.add(n);
+    for (var n in nodes) {
+      var parent = nodes.where((e) => e.data!.id == n.data!.parentId);
+      if (parent.isEmpty) {
+        continue;
+      }
+      parent.first.add(n);
     }
 
-    simpleTree.add(node);
-  }
-
-  void buildTree() async {
-    addRoot(companies, "Gazprom");
-    addRoot(companies, "Rosneft");
+    for (var p in nodes) {
+      if (p.data!.parentId == null) {
+        _simpleTree.add(p);
+      }
+    }    
   }
 
   @override
   Widget build(BuildContext context) {
+    
     return Container(
       alignment: Alignment.topCenter,
       width: 300,
       child: TreeView.simple(
-        tree: simpleTree,
+        tree: _simpleTree,
         showRootNode: false,
-        onItemTap: (nodeData) => onSelect(nodeData.data),
+        // onItemTap: (nodeData) => _onSelect(nodeData.data),
         builder: (context, node) {
-            // build your node item here
-            // return any widget that you need
             return ListTile(
-              title: Text("${node.data['title']}"),
-              subtitle: Text('Level ${node.level}'),
+              title: Text(node.data!.name),
+              // subtitle: Text('Level ${node.level}'),
             );
         }
       )

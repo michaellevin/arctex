@@ -1,6 +1,6 @@
 import 'package:arktech/models/itree_node_model.dart';
 
-class MiningSiteModel extends ITreeNodeModel {
+class MiningSiteModel extends AbsPipelineModel {
   bool pigging, cathodicProtection, externalCoating;
   String cpType, environment, pipelineDesignCode;
   double designCorrosionRate, designTemperature, designPressure, designFlow;

@@ -1,6 +1,6 @@
 import 'package:arktech/models/itree_node_model.dart';
 
-class CompanyModel extends ITreeNodeModel {  
+class CompanyModel extends AbsPipelineModel {  
   CompanyModel({
     required String id,
     String? parentId,

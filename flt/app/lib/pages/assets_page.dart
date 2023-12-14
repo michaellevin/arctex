@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:arktech/bloc/pipeline_data_bloc.dart';
 import 'package:arktech/models/itree_node_model.dart';
 import 'package:arktech/models/mineral_site_model.dart';
+import 'package:arktech/models/mining_site_model.dart';
+import 'package:arktech/models/pipeline_model.dart';
 import 'package:arktech/widgets/company_widget.dart';
 import 'package:arktech/widgets/home_widget.dart';
 import 'package:arktech/widgets/map_widget.dart';
@@ -25,16 +27,26 @@ class AssetsPage extends StatefulWidget {
 
 
 class _AssetsPageState extends State<AssetsPage> {
-  TreeNodeType _selectedTreeNodeType = TreeNodeType.root;
+  AbsPipelineModel? _selectedTreeNode;
+  TreeWidget? _treeWidget;
 
-  void _onTreeItemTap(ITreeNodeModel item) {
+  void _onTreeItemTap(AbsPipelineModel item) {
     setState(() {
-      _selectedTreeNodeType = item.type;
+      _selectedTreeNode = item;
     });
   }
 
   Widget _getSelectedWidget() {
-    switch (_selectedTreeNodeType) {
+    if (_selectedTreeNode == null) {
+      return const HomeWidget();
+    }
+
+    var model = (context.read<PipelineDataBloc>().state as PipelineDataReadyState)
+      .pipelines.where((element) => element.id == _selectedTreeNode!.id).first;
+
+    print("Selected: ${model.name} (${model.id})");
+
+    switch (_selectedTreeNode!.type) {
       case TreeNodeType.root:
         return const HomeWidget();
       case TreeNodeType.company:
@@ -42,9 +54,9 @@ class _AssetsPageState extends State<AssetsPage> {
       case TreeNodeType.mineralSite:
         return const MineralSiteWidget();
       case TreeNodeType.miningSite:
-        return const MiningSiteWidget();
+        return MiningSiteWidget(model as MiningSiteModel);
       case TreeNodeType.pipeline:
-        return const PipelineWidget();
+        return PipelineWidget(model as PipelineModel);
       case TreeNodeType.pipesection:
         return const PipesectionWidget();
       default:
@@ -60,9 +72,11 @@ class _AssetsPageState extends State<AssetsPage> {
           return const Center(child: CircularProgressIndicator());
         }
 
+        _treeWidget ??= TreeWidget(state.pipelines, _onTreeItemTap);
+
         return Row(
           children: [
-            TreeWidget(state.pipelines, _onTreeItemTap),
+            _treeWidget!,
             Expanded(
               flex: 1,
               child: _getSelectedWidget(),

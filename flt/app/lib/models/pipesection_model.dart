@@ -1,6 +1,6 @@
 import 'package:arktech/models/itree_node_model.dart';
 
-class PipesectionModel extends ITreeNodeModel {
+class PipesectionModel extends AbsPipelineModel {
   PipesectionModel({
     required String id,
     String? parentId,

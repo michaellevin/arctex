@@ -8,7 +8,7 @@ class PipelineDataAddEvent extends PipelineDataEvent {}
 
 class PipelineDataState {}
 class PipelineDataReadyState extends PipelineDataState {
-  final List<ITreeNodeModel> pipelines;
+  final List<AbsPipelineModel> pipelines;
   PipelineDataReadyState(this.pipelines);
 }
 

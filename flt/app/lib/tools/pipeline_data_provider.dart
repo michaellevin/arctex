@@ -10,7 +10,7 @@ import 'package:arktech/models/pipesection_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 class PipelineDataProvider {
-  static Future<List<ITreeNodeModel>> readData() async {
+  static Future<List<AbsPipelineModel>> readData() async {
     var docDir = await getApplicationDocumentsDirectory();
     var appDataDir = Directory("${docDir.path}/Arctex");
     var exists = await appDataDir.exists();
@@ -33,7 +33,7 @@ class PipelineDataProvider {
     print("Reading pipeline data from $filePath");
 
     var data = await dataFile.readAsString();
-    var pipelines = <ITreeNodeModel>[];
+    var pipelines = <AbsPipelineModel>[];
     var rawData = jsonDecode(data);
 
     for (var p in rawData["companies"]) {

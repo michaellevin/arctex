@@ -1,6 +1,6 @@
 import 'package:arktech/models/itree_node_model.dart';
 
-class MineralSiteModel extends ITreeNodeModel {  
+class MineralSiteModel extends AbsPipelineModel {  
   MineralSiteModel({
     required String id,
     String? parentId,
@@ -13,7 +13,7 @@ class MineralSiteModel extends ITreeNodeModel {
       id: json['id'],
       parentId: json['parentId'],
       name: json['name'],
-      type: TreeNodeType.company,
+      type: TreeNodeType.mineralSite,
     );
   }
 }

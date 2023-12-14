@@ -8,13 +8,13 @@ enum TreeNodeType {
   pipesection,
 }
 
-class ITreeNodeModel {
+class AbsPipelineModel {
   String id;
   String? parentId;
   String name;
   TreeNodeType type;
 
-  ITreeNodeModel({
+  AbsPipelineModel({
     required this.id,
     required this.name,
     required this.type,

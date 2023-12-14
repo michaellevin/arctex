@@ -6,9 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class TreeWidget extends StatelessWidget {
-  final Function(ITreeNodeModel item) _onItemTap;
-  final TreeNode<ITreeNodeModel> _simpleTree = TreeNode.root(data: ITreeNodeModel(id: "root", name: "root", type: TreeNodeType.root));
-  final List<ITreeNodeModel> _pipelines;
+  final Function(AbsPipelineModel item) _onItemTap;
+  final TreeNode<AbsPipelineModel> _simpleTree = TreeNode.root(data: AbsPipelineModel(id: "root", name: "root", type: TreeNodeType.root));
+  final List<AbsPipelineModel> _pipelines;
 
   TreeWidget(this._pipelines, this._onItemTap, {super.key}) {
     buildTree();

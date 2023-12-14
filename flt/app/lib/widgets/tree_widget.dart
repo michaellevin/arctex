@@ -6,10 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class TreeWidget extends StatelessWidget {
+  final Function(ITreeNodeModel item) _onItemTap;
   final TreeNode<ITreeNodeModel> _simpleTree = TreeNode.root(data: ITreeNodeModel(id: "root", name: "root", type: TreeNodeType.root));
   final List<ITreeNodeModel> _pipelines;
 
-  TreeWidget(this._pipelines, {super.key}) {
+  TreeWidget(this._pipelines, this._onItemTap, {super.key}) {
     buildTree();
   }
 
@@ -39,16 +40,12 @@ class TreeWidget extends StatelessWidget {
       child: TreeView.simple(
         tree: _simpleTree,
         showRootNode: false,
-        onItemTap: (nodeData) {
-          if (nodeData.isLeaf) {
-            context.read<SensorBloc>().add(SensorReadEvent(nodeData.data!.id));
-          }
-        },
+        onItemTap: (nodeData) => _onItemTap(nodeData.data!),
         builder: (context, node) {
-            return ListTile(
-              title: Text(node.data!.name),
-              // subtitle: Text('Level ${node.level}'),
-            );
+          return ListTile(
+            title: Text(node.data!.name),
+            // subtitle: Text('Level ${node.level}'),
+          );
         }
       )
     );

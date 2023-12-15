@@ -9,6 +9,7 @@ import 'package:arktech/widgets/home_widget.dart';
 import 'package:arktech/widgets/map_widget.dart';
 import 'package:arktech/widgets/mineralsite_widget.dart';
 import 'package:arktech/widgets/miningsite_widget.dart';
+import 'package:arktech/widgets/model_hub_widget.dart';
 import 'package:arktech/widgets/pipeline_widget.dart';
 import 'package:arktech/widgets/pipesection_widget.dart';
 import 'package:arktech/widgets/sensor_graph_widget.dart';
@@ -27,63 +28,25 @@ class AssetsPage extends StatefulWidget {
 
 
 class _AssetsPageState extends State<AssetsPage> {
-  AbsPipelineModel? _selectedTreeNode;
-  TreeWidget? _treeWidget;
 
   void _onTreeItemTap(AbsPipelineModel item) {
-    setState(() {
-      _selectedTreeNode = item;
-    });
+
   }
 
-  Widget _getSelectedWidget() {
-    if (_selectedTreeNode == null) {
-      return const HomeWidget();
-    }
+  void _onPipelineCreated(AbsPipelineModel? item) {
 
-    var model = (context.read<PipelineDataBloc>().state as PipelineDataReadyState)
-      .pipelines.where((element) => element.id == _selectedTreeNode!.id).first;
-
-    print("Selected: ${model.name} (${model.id})");
-
-    switch (_selectedTreeNode!.type) {
-      case TreeNodeType.root:
-        return const HomeWidget();
-      case TreeNodeType.company:
-        return const CompanyWidget();
-      case TreeNodeType.mineralSite:
-        return const MineralSiteWidget();
-      case TreeNodeType.miningSite:
-        return MiningSiteWidget(model as MiningSiteModel);
-      case TreeNodeType.pipeline:
-        return PipelineWidget(model as PipelineModel);
-      case TreeNodeType.pipesection:
-        return const PipesectionWidget();
-      default:
-        return const Text('Unknown');
-    }
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PipelineDataBloc, PipelineDataState>(
-      builder: (context, state) {
-        if (state is! PipelineDataReadyState) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        _treeWidget ??= TreeWidget(state.pipelines, _onTreeItemTap);
-
-        return Row(
-          children: [
-            _treeWidget!,
-            Expanded(
-              flex: 1,
-              child: _getSelectedWidget(),
-            )
-          ]
-        );
-      }
+    return Row(
+      children: [
+        TreeWidget(_onTreeItemTap, _onPipelineCreated),
+        const Expanded(
+          flex: 1,
+          child: ModelHubWidget(),
+        )
+      ]
     );
   }
 }

@@ -1,61 +1,26 @@
+import 'package:arktech/models/parameter_model.dart';
+import 'package:arktech/models/pipeline_model.dart';
 import 'package:flutter/material.dart';
 
-enum PPParamType {
-  string,
-  int,
-  double,
-  bool,
-  date,
-  time,
-  datetime,
-  list,
-  map,
-}
 
 class PPParamWidget extends StatelessWidget {
-  final PPParamType type;
-  final String label;
-  final dynamic value;
-
+  final PipelineModel model;
+  final int paramCode;
+  final bool editMode;
+  late ParameterModel _paramModel;
   late final TextEditingController _controller;
 
   PPParamWidget({
-    required this.type, 
-    required this.label,
-    required this.value,
+    required this.paramCode,
+    required this.model,
+    this.editMode = false,
     super.key
   }) {
-    _controller = TextEditingController(text: value.toString());
+    _paramModel = model.getParameter(paramCode);
+    _controller = TextEditingController(text: _paramModel.value.toString());
   }
 
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(6.0),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 200,
-            child: Text(
-              label,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            )
-          ),
-          const SizedBox(width: 10),
-          SizedBox(
-            width: 400,
-            height: 50,
-            child: TextField(
-              controller: _controller,
-              enabled: false,
-              expands: true,
-              maxLines: null,
-              minLines: null,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(left: 10.0),
-                border: const OutlineInputBorder(),
-                suffixText: "kg/m3  ",
+  Widget _getWidget() {
                 // suffixIcon: const Align(
                 //   alignment: Alignment.centerRight,
                 //   child: Padding(
@@ -66,8 +31,66 @@ class PPParamWidget extends StatelessWidget {
                 //     ),
                 //   ),
                 // ),
-              ),
-            ),
+                //    
+    switch(_paramModel.type) {
+      case PPParamType.bool:
+        return Align(
+          alignment: Alignment.centerLeft,
+          child: Checkbox(
+            value: _paramModel.value,
+            onChanged: (value) => _onEdit(value),
+          ),
+        );
+      case PPParamType.double:
+        return TextField(
+          controller: _controller,
+          enabled: editMode,
+          onChanged: (value) => _onEdit(value),
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.only(left: 10.0),
+            border: const OutlineInputBorder(),
+            suffixText: _paramModel.unit != null ? "${_paramModel.unit}  " : "",
+          ),
+        );
+      case PPParamType.string:
+        return TextField(
+          controller: _controller,
+          enabled: editMode,
+          onChanged: (value) => _onEdit(value),
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.only(left: 10.0),
+            border: const OutlineInputBorder(),
+            suffixText: _paramModel.unit != null ? "${_paramModel.unit}  " : "",
+          ),
+        );
+      default:
+        return const Text("Unknown type");
+    }
+  }
+
+  void _onEdit(dynamic value) {
+    model.setParameter(paramCode, value);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(6.0),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 200,
+            child: Text(
+              _paramModel.name,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            )
+          ),
+          const SizedBox(width: 10),
+          SizedBox(
+            width: 300,
+            height: 50,
+            child: _getWidget(),
           )
         ]
       ),

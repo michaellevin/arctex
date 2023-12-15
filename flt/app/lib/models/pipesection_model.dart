@@ -16,4 +16,13 @@ class PipesectionModel extends AbsPipelineModel {
       type: TreeNodeType.pipesection,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'parentId': parentId,
+      'name': name,
+      'type': type.toString(),
+    };
+  }
 }

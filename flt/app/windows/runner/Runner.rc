@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "arktech" "\0"
+            VALUE "FileDescription", "arctex" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "arktech" "\0"
+            VALUE "InternalName", "arctex" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "arktech.exe" "\0"
-            VALUE "ProductName", "arktech" "\0"
+            VALUE "OriginalFilename", "arctex.exe" "\0"
+            VALUE "ProductName", "arctex" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

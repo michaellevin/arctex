@@ -1,5 +1,5 @@
-import 'package:arktech/models/pipesection_model.dart';
-import 'package:arktech/widgets/pp_parameter_widget.dart';
+import 'package:arctex/models/pipesection_model.dart';
+import 'package:arctex/widgets/pp_parameter_widget.dart';
 import 'package:flutter/material.dart';
 
 class PipesectionWidget extends StatelessWidget {

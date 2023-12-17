@@ -1,4 +1,4 @@
-# arktech
+# arctex
 
 A new Flutter project.
 

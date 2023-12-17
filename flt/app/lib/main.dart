@@ -1,26 +1,24 @@
-import 'package:arktech/bloc/pipeline_data_bloc.dart';
-import 'package:arktech/bloc/sensor_data_bloc.dart';
-import 'package:arktech/tools/pipeline_data_provider.dart';
-import 'package:arktech/pages/analisys_page.dart';
-import 'package:arktech/pages/assets_page.dart';
-import 'package:arktech/pages/inspection_page.dart';
-import 'package:arktech/pages/monitoring_page.dart';
-import 'package:arktech/pages/reliability_page.dart';
-import 'package:arktech/pages/scheduling_page.dart';
+import 'package:arctex/bloc/pipeline_data_bloc.dart';
+import 'package:arctex/bloc/sensor_data_bloc.dart';
+import 'package:arctex/tools/pipeline_data_provider.dart';
+import 'package:arctex/pages/analisys_page.dart';
+import 'package:arctex/pages/assets_page.dart';
+import 'package:arctex/pages/inspection_page.dart';
+import 'package:arctex/pages/monitoring_page.dart';
+import 'package:arctex/pages/reliability_page.dart';
+import 'package:arctex/pages/scheduling_page.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 void main() {
-  runApp(const MyApp());
+  runApp(const ArctexApp());
 }
 
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ArctexApp extends StatelessWidget {
+  const ArctexApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +27,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
       ),
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => PipelineDataBloc()),
-          BlocProvider(create: (context) => SensorBloc()),
-        ],
-        child: const MyHomePage(title: 'ARCTEX')),
+      home: MultiBlocProvider(providers: [
+        BlocProvider(create: (context) => PipelineDataBloc()),
+        BlocProvider(create: (context) => SensorBloc()),
+      ], child: const MyHomePage(title: 'ARCTEX')),
     );
   }
 }
-
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -61,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
           _sideMenu.changePage(index);
         },
         icon: const Icon(Icons.home_outlined),
-      ),           
+      ),
       SideMenuItem(
         title: 'Assets',
         onTap: (index, _) {
@@ -79,14 +74,14 @@ class _MyHomePageState extends State<MyHomePage> {
           _sideMenu.changePage(index);
         },
         icon: const Icon(Icons.bar_chart_outlined),
-      ), 
+      ),
       SideMenuItem(
         title: 'System',
         onTap: (index, _) {
           _sideMenu.changePage(index);
         },
         icon: const Icon(Icons.admin_panel_settings_outlined),
-      ),       
+      ),
     ];
   }
 
@@ -133,7 +128,6 @@ class _MyHomePageState extends State<MyHomePage> {
               items: _menuItems,
             ),
           ),
-
           Expanded(
             child: PageView(
               controller: _pageController,
@@ -144,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 InspectionPage(),
               ],
             ),
-          ),          
+          ),
         ],
       ),
     );

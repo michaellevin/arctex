@@ -1,12 +1,12 @@
-import 'package:arktech/models/itree_node_model.dart';
+import 'package:arctex/models/itree_node_model.dart';
 
-class MineralSiteModel extends AbsPipelineModel {  
+class MineralSiteModel extends Entity {
   MineralSiteModel({
     required String id,
     String? parentId,
     required String name,
     required TreeNodeType type,
-  })  : super(id: id, parentId: parentId, name: name, type: type);
+  }) : super(id: id, parentId: parentId, name: name, type: type);
 
   static MineralSiteModel fromJson(Map<String, dynamic> json) {
     return MineralSiteModel(

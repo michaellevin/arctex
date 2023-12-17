@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:arktech/models/sensor_model.dart';
+import 'package:arctex/models/sensor_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 class SensorDataProvider {

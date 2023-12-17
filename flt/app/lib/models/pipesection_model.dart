@@ -1,12 +1,12 @@
-import 'package:arktech/models/itree_node_model.dart';
+import 'package:arctex/models/itree_node_model.dart';
 
-class PipesectionModel extends AbsPipelineModel {
+class PipesectionModel extends Entity {
   PipesectionModel({
     required String id,
     String? parentId,
     required String name,
     required TreeNodeType type,
-  })  : super(id: id, parentId: parentId, name: name, type: type);
+  }) : super(id: id, parentId: parentId, name: name, type: type);
 
   static PipesectionModel fromJson(Map<String, dynamic> json) {
     return PipesectionModel(

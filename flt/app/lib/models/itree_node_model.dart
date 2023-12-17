@@ -1,4 +1,3 @@
-
 enum TreeNodeType {
   root,
   company,
@@ -8,13 +7,13 @@ enum TreeNodeType {
   pipesection,
 }
 
-class AbsPipelineModel {
+class Entity {
   String id;
-  String? parentId;
+  String? parentId; // "?"" means nullable
   String name;
   TreeNodeType type;
 
-  AbsPipelineModel({
+  Entity({
     required this.id,
     required this.name,
     required this.type,

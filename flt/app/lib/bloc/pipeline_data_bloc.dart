@@ -1,29 +1,35 @@
-import 'package:arktech/models/itree_node_model.dart';
-import 'package:arktech/tools/pipeline_data_provider.dart';
+import 'package:arctex/models/itree_node_model.dart';
+import 'package:arctex/tools/pipeline_data_provider.dart';
 import 'package:bloc/bloc.dart';
 
 class PipelineDataEvent {}
+
 class PipelineDataReadEvent extends PipelineDataEvent {}
+
 class PipelineDataAddEvent extends PipelineDataEvent {
-  final AbsPipelineModel model;
+  final Entity model;
   PipelineDataAddEvent(this.model);
 }
+
 class PipelineDataSelectEvent extends PipelineDataEvent {
-  final AbsPipelineModel model;
+  final Entity model;
   PipelineDataSelectEvent(this.model);
 }
 
 class PipelineDataState {}
+
 class PipelineDataReadyState extends PipelineDataState {
-  final List<AbsPipelineModel> pipelines;
+  final List<Entity> pipelines;
   PipelineDataReadyState(this.pipelines);
 }
+
 class PipelineCreatedState extends PipelineDataState {
-  final AbsPipelineModel pipeline;
+  final Entity pipeline;
   PipelineCreatedState(this.pipeline);
 }
+
 class PipelineSelectedState extends PipelineDataState {
-  final AbsPipelineModel pipeline;
+  final Entity pipeline;
   PipelineSelectedState(this.pipeline);
 }
 

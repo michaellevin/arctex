@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:arktech/models/company_model.dart';
-import 'package:arktech/models/itree_node_model.dart';
-import 'package:arktech/models/mineral_site_model.dart';
-import 'package:arktech/models/mining_site_model.dart';
-import 'package:arktech/models/pipeline_model.dart';
-import 'package:arktech/models/pipesection_model.dart';
+import 'package:arctex/models/company_model.dart';
+import 'package:arctex/models/itree_node_model.dart';
+import 'package:arctex/models/mineral_site_model.dart';
+import 'package:arctex/models/mining_site_model.dart';
+import 'package:arctex/models/pipeline_model.dart';
+import 'package:arctex/models/pipesection_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 String defaultData = '''
@@ -37,38 +37,28 @@ String defaultData = '''
     }
   ],
   "pipelines": [
-    {
-      "name": "Трубопровод 27-СП1",
-      "id": "pipeline1",
-      "parentId": "mining_site1"
-    }
   ],
   "pipesections": [
-    {
-      "name": "Участок 0-100",
-      "id": "pipesection1",
-      "parentId": "pipeline1",
-      "sensorIds": [
-        "10559"
-      ]
-    }
   ]
 }
 ''';
 
-
 class PipelineDataProvider {
-  static Future<List<AbsPipelineModel>> readData() async {
+  static Future<List<Entity>> readData() async {
     var docDir = await getApplicationDocumentsDirectory();
     var appDataDir = Directory("${docDir.path}/Arctex");
     var exists = await appDataDir.exists();
     if (!exists) {
-      print("Application pipeline data directory not found. Creating new one at ${appDataDir.path}");
+      print(
+          "Application pipeline data directory not found. Creating new one at ${appDataDir.path}");
       appDataDir = await Directory(appDataDir.path).create();
       print("Created pipeline data directory: ${appDataDir.path}");
     }
 
-    var filePath = '${appDataDir.absolute}/pipelines.json'.replaceAll(r'\', '/').replaceAll(r"'", "").replaceAll("Directory: ", "");
+    var filePath = '${appDataDir.absolute}/pipelines.json'
+        .replaceAll(r'\', '/')
+        .replaceAll(r"'", "")
+        .replaceAll("Directory: ", "");
     var dataFile = File(filePath);
     exists = await dataFile.exists();
     if (!exists) {
@@ -77,11 +67,11 @@ class PipelineDataProvider {
       print("Created pipeline data file: $filePath");
       await dataFile.writeAsString(defaultData);
     }
-    
+
     print("Reading pipeline data from $filePath");
 
     var data = await dataFile.readAsString();
-    var pipelines = <AbsPipelineModel>[];
+    var pipelines = <Entity>[];
     var rawData = jsonDecode(data);
 
     for (var p in rawData["companies"]) {
@@ -99,37 +89,39 @@ class PipelineDataProvider {
     for (var p in rawData["pipesections"]) {
       pipelines.add(PipesectionModel.fromJson(p));
     }
-    
+
     return pipelines;
   }
 
-  static Future<void> addModel(AbsPipelineModel model) async {
+  static Future<void> addModel(Entity model) async {
     var docDir = await getApplicationDocumentsDirectory();
     var appDataDir = Directory("${docDir.path}/Arctex");
-    var filePath = '${appDataDir.absolute}/pipelines.json'.replaceAll(r'\', '/').replaceAll(r"'", "").replaceAll("Directory: ", "");
+    var filePath = '${appDataDir.absolute}/pipelines.json'
+        .replaceAll(r'\', '/')
+        .replaceAll(r"'", "")
+        .replaceAll("Directory: ", "");
     var dataFile = File(filePath);
     var data = await dataFile.readAsString();
     var rawData = jsonDecode(data);
 
     if (model is PipelineModel) {
-      var index = rawData["pipelines"].indexWhere((e) => e["id"] == model.id);  
+      var index = rawData["pipelines"].indexWhere((e) => e["id"] == model.id);
       if (index == -1) {
         rawData["pipelines"].add(model.toJson());
-      }
-      else {
+      } else {
         rawData["pipelines"][index] = model.toJson();
       }
     }
     if (model is PipesectionModel) {
-      var index = rawData["pipesections"].indexWhere((e) => e["id"] == model.id);  
+      var index =
+          rawData["pipesections"].indexWhere((e) => e["id"] == model.id);
       if (index == -1) {
         rawData["pipesections"].add(model.toJson());
-      }
-      else {
+      } else {
         rawData["pipesections"][index] = model.toJson();
       }
     }
-
+    print(rawData);
     await dataFile.writeAsString(jsonEncode(rawData));
   }
 }

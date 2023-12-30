@@ -1,0 +1,28 @@
+[{
+    "id": 1823455,
+    
+    * [1] "tag": "10558", // номер установки - номер элемента - тип датчика - произвольный номер
+    "104-TI-547"
+    * [2] pipeline_id: 1
+
+
+
+    "type": "0x00", // type of sensor
+    [3] "er_type": "0x00", // торцевой малый
+    * [4] "date_production": "2021-12-25", //
+    * [5] "date_installation": "2023-10-20", //
+    * [6] "project_corrosion_rate": 0.1, // mm/year
+    
+    "long_term_corrosion_rate": 5, // output
+    "short_term_corrosion_rate": 2, // output
+    "state": "0x00", //output
+    "date_next_service": "2024-02-04", // output
+    "service_comment": "Service comment for sensor 1", //output
+    [8] "reference_sample_area": 53.41, // choose
+    [9] "inner_diameter": 8 // choose
+    
+
+    [10] design temperature ...// 
+    
+ }
+]

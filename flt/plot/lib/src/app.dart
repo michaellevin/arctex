@@ -3,8 +3,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'core/sensors_strategies/er_csv_data_parser.dart';
-import 'core/sensors.dart';
+import 'services/er_csv_data_parser.dart';
+import 'models/sensors/sensor_abstract.dart';
+import 'models/sensors/sensor_er.dart';
+import 'enums/enums_sensor.dart';
+import 'utils/helpers.dart';
 
 class PlotApp extends StatefulWidget {
   const PlotApp({Key? key}) : super(key: key);
@@ -14,7 +17,7 @@ class PlotApp extends StatefulWidget {
 }
 
 class _PlotAppState extends State<PlotApp> {
-  List<ERSensor> erSensors = [];
+  List<Sensor> erSensors = [];
   // List<CsvData> csvData = [];
   List<ExtendedCsvData> csvData = [];
   bool isCsvDataLoaded = false;
@@ -23,18 +26,21 @@ class _PlotAppState extends State<PlotApp> {
   void initState() {
     super.initState();
 
+    // Register factories
+    Sensor.registerFactory(SensorType.er, (json) => ERSensor.fromJson(json));
+
     // Load ER sensors
     loadERSensors();
   }
 
   Future<void> loadERSensors() async {
-    List<ERSensor> sensors = await loadERSensorsFromAssets();
+    List<Sensor> sensors = await loadSensorsFromAssets(SensorType.er);
     setState(() {
       erSensors = sensors;
     });
   }
 
-  Future<void> loadCsvData(ERSensor currentSensor) async {
+  Future<void> loadCsvData(Sensor sensor) async {
     String rawCsv =
         await rootBundle.loadString('assets/sensors_data/ER/Sib113.csv');
     CsvParser parser = CsvParser();
@@ -60,27 +66,29 @@ class _PlotAppState extends State<PlotApp> {
     // });
 
     // Calculate corrosion values
-    // Additional variables from the current sensor
-    double area =
-        currentSensor.referenceSampleArea; // Replace with actual property name
-    double diameter =
-        currentSensor.innerDiameter; // Replace with actual property name
-    // Create a list of ExtendedCsvData
     List<ExtendedCsvData> extendedData = [];
-    for (var data in filteredData) {
-      double corrodedArea = area / data.ratio;
-      double realThickness =
-          sqrt(diameter * diameter + corrodedArea / pi) - diameter;
-      double metalLoss = 1.0 - realThickness;
+    if (sensor is ERSensor) {
+      // var erSensor = sensor as ERSensor;
+      double area = sensor.referenceSampleArea.value;
+      double diameter = sensor.innerDiameter.value;
 
-      extendedData
-          .add(ExtendedCsvData(originalData: data, metalLoss: metalLoss));
+      for (var data in filteredData) {
+        double corrodedArea = area / data.ratio;
+        double realThickness =
+            sqrt(diameter * diameter + corrodedArea / pi) - diameter;
+        double metalLoss = 1.0 - realThickness;
+        extendedData
+            .add(ExtendedCsvData(originalData: data, metalLoss: metalLoss));
+      }
+      // print
+      extendedData.forEach((data) {
+        print(data.metalLoss);
+      });
+    } else {
+      // Handle the case where sensor is not ERSensor
     }
 
-    extendedData.forEach((data) {
-      print(data.metalLoss);
-    });
-
+    // Update the state
     setState(() {
       // csvData = filteredData;
       csvData = extendedData;
@@ -109,31 +117,11 @@ class _PlotAppState extends State<PlotApp> {
             ),
           ),
           isCsvDataLoaded
-              // ? Expanded(
-              //     child: ListView.builder(
-              //       itemCount: csvData.length,
-              //       itemBuilder: (context, index) {
-              //         return ListTile(
-              //           title: Text(csvData[index].date.toString()),
-              //           subtitle: Text('Ratio: ${csvData[index].ratio}'),
-              //         );
-              //       }
-              //     )
-              //   )
               ? SfCartesianChart(
                   primaryXAxis: const DateTimeAxis(),
-                  primaryYAxis:
-                      // const NumericAxis(minimum: 0.99, maximum: 1.060),
-                      const NumericAxis(minimum: 0.01, maximum: 0.05),
+                  primaryYAxis: const NumericAxis(minimum: 0.01, maximum: 0.05),
                   title: const ChartTitle(text: 'Date/Metal Loss'),
                   series: <CartesianSeries<dynamic, dynamic>>[
-                    // LineSeries<CsvData, DateTime>(
-                    //   dataSource: csvData,
-                    //   xValueMapper: (CsvData data, _) => data.date,
-                    //   yValueMapper: (CsvData data, _) => data.ratio,
-                    //   dataLabelSettings:
-                    //       const DataLabelSettings(isVisible: false),
-                    // )
                     LineSeries<ExtendedCsvData, DateTime>(
                       dataSource: csvData,
                       xValueMapper: (ExtendedCsvData data, _) =>
@@ -173,19 +161,20 @@ class _PlotAppState extends State<PlotApp> {
     );
   }
 
-  Widget _buildSensorItem(ERSensor sensor) {
+  Widget _buildSensorItem(Sensor sensor) {
     return Card(
       child: ListTile(
         title: Text('Sensor Tag: ${sensor.tag}'),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Type: ${sensor.type}'),
-            Text('Date Production: ${sensor.dateProduction.toString()}'),
-            Text('Date Installation: ${sensor.dateInstallation.toString()}'),
-            Text('Project Corrosion Rate: ${sensor.projectCorrosionRate}'),
-            Text('State: ${sensor.state}'),
-            Text('Date Next Service: ${sensor.dateNextService.toString()}'),
+            Text('Type: ${sensor.type.displayString}'),
+            Text('Date Production: ${formatDate(sensor.dateProduction)}'),
+            Text('Date Installation: ${formatDate(sensor.dateInstallation)}'),
+            Text(
+                'Design Corrosion Rate: ${sensor.designCorrosionRate.displayString}'),
+            Text('State: ${sensor.state.displayString}'),
+            Text('Date Next Service: ${formatDate(sensor.dateNextService)}'),
             Text('Service Comment: ${sensor.serviceComment}'),
           ],
         ),

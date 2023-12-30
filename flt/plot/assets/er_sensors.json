@@ -1,18 +1,21 @@
 [
     {
         "id": 1823455,
-        "tag": "10558",
-        "type": "0x00",
-        "er_type": "0x00",
+        "tag": "113-TI-547",
+        "type": "0x01",
+        "er_type": "0x01",
         "date_production": "2021-12-25",
         "date_installation": "2023-10-20",
-        "project_corrosion_rate": 0.254,
-        "long_term_corrosion_rate": 5,
-        "short_term_corrosion_rate": 2,
-        "state": "0x00",
-        "date_next_service": "2024-02-04",
-        "service_comment": "Service comment for sensor 1",
-        "reference_sample_area": 53.41,
-        "inner_diameter": 8
+        "design_corrosion_rate": "0x01",
+        "initial_probe_thickness": 0.254,
+        "reference_sample_area": "0x01",
+        "inner_diameter": "0x01",
+        "design_temperature": 40,
+        "long_term_corrosion_rate": 0.0,
+        "short_term_corrosion_rate": 0.0,
+        "state": "0x01",
+        "date_next_service": "2028-01-01",
+        "service_comment": "",
+        "pipeline_id": 18904
     }
 ]

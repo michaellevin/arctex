@@ -7,7 +7,10 @@ import 'services/er_csv_data_parser.dart';
 import 'models/sensors/sensor_abstract.dart';
 import 'models/sensors/sensor_er.dart';
 import 'enums/enums_sensor.dart';
-import 'utils/helpers.dart';
+// import 'utils/helpers.dart';
+
+// import 'ui/sensor_item.dart';
+import 'ui/sensor_view.dart';
 
 class PlotApp extends StatefulWidget {
   const PlotApp({Key? key}) : super(key: key);
@@ -105,15 +108,13 @@ class _PlotAppState extends State<PlotApp> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('CSV Data Display'),
+          title: const Text('Sensor Monitoring'),
         ),
         body: Column(children: [
           Expanded(
-            child: ListView.builder(
-              itemCount: erSensors.length,
-              itemBuilder: (context, index) {
-                return _buildSensorItem(erSensors[index]);
-              },
+            child: SensorListView(
+              sensors: erSensors,
+              onAddSensor: () {},
             ),
           ),
           isCsvDataLoaded
@@ -161,24 +162,24 @@ class _PlotAppState extends State<PlotApp> {
     );
   }
 
-  Widget _buildSensorItem(Sensor sensor) {
-    return Card(
-      child: ListTile(
-        title: Text('Sensor Tag: ${sensor.tag}'),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Type: ${sensor.type.displayString}'),
-            Text('Date Production: ${formatDate(sensor.dateProduction)}'),
-            Text('Date Installation: ${formatDate(sensor.dateInstallation)}'),
-            Text(
-                'Design Corrosion Rate: ${sensor.designCorrosionRate.displayString}'),
-            Text('State: ${sensor.state.displayString}'),
-            Text('Date Next Service: ${formatDate(sensor.dateNextService)}'),
-            Text('Service Comment: ${sensor.serviceComment}'),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget _buildSensorItem(Sensor sensor) {
+  //   return Card(
+  //     child: ListTile(
+  //       title: Text('Sensor Tag: ${sensor.tag}'),
+  //       subtitle: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Text('Type: ${sensor.type.displayString}'),
+  //           Text('Date Production: ${formatDate(sensor.dateProduction)}'),
+  //           Text('Date Installation: ${formatDate(sensor.dateInstallation)}'),
+  //           Text(
+  //               'Design Corrosion Rate: ${sensor.designCorrosionRate.displayString}'),
+  //           Text('State: ${sensor.state.displayString}'),
+  //           Text('Date Next Service: ${formatDate(sensor.dateNextService)}'),
+  //           Text('Service Comment: ${sensor.serviceComment}'),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 }

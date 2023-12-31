@@ -33,6 +33,7 @@ dependencies:
   syncfusion_flutter_charts: 
   csv: 
   intl:
+  path_provider:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:

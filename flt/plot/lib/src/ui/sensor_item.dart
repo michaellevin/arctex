@@ -4,27 +4,50 @@ import '../models/sensors/sensor_abstract.dart';
 import '../enums/enums_sensor.dart';
 import '../utils/helpers.dart';
 
-class SensorItem extends StatelessWidget {
+class SensorItem extends StatefulWidget {
   final Sensor sensor;
 
   const SensorItem({Key? key, required this.sensor}) : super(key: key);
 
   @override
+  SensorItemState createState() => SensorItemState();
+}
+
+class SensorItemState extends State<SensorItem> {
+  bool isSelected = false;
+
+  @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Card(
+      semanticContainer: true,
+      elevation: 5,
+      margin: EdgeInsets.all(10),
+      color: isSelected ? theme.primaryColorLight : null,
       child: ListTile(
-        title: Text('Sensor Tag: ${sensor.tag}'),
+        title: Text('Sensor Tag: ${widget.sensor.tag}'),
+        dense: true,
+        visualDensity: VisualDensity(vertical: -3),
+        onTap: () {
+          setState(() {
+            isSelected = !isSelected;
+          });
+        },
         subtitle: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Type: ${sensor.type.displayString}'),
-            Text('Date Production: ${formatDate(sensor.dateProduction)}'),
-            Text('Date Installation: ${formatDate(sensor.dateInstallation)}'),
+            Text('Type: ${widget.sensor.type.displayString}'),
             Text(
-                'Design Corrosion Rate: ${sensor.designCorrosionRate.displayString}'),
-            Text('State: ${sensor.state.displayString}'),
-            Text('Date Next Service: ${formatDate(sensor.dateNextService)}'),
-            Text('Service Comment: ${sensor.serviceComment}'),
+                'Date Production: ${formatDate(widget.sensor.dateProduction)}'),
+            Text(
+                'Date Installation: ${formatDate(widget.sensor.dateInstallation)}'),
+            Text(
+                'Design Corrosion Rate: ${widget.sensor.designCorrosionRate.displayString}'),
+            Text('State: ${widget.sensor.state.displayString}'),
+            Text(
+                'Date Next Service: ${formatDate(widget.sensor.dateNextService)}'),
+            Text('Service Comment: ${widget.sensor.serviceComment}'),
           ],
         ),
       ),

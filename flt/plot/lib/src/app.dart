@@ -161,25 +161,4 @@ class _PlotAppState extends State<PlotApp> {
       ),
     );
   }
-
-  // Widget _buildSensorItem(Sensor sensor) {
-  //   return Card(
-  //     child: ListTile(
-  //       title: Text('Sensor Tag: ${sensor.tag}'),
-  //       subtitle: Column(
-  //         crossAxisAlignment: CrossAxisAlignment.start,
-  //         children: [
-  //           Text('Type: ${sensor.type.displayString}'),
-  //           Text('Date Production: ${formatDate(sensor.dateProduction)}'),
-  //           Text('Date Installation: ${formatDate(sensor.dateInstallation)}'),
-  //           Text(
-  //               'Design Corrosion Rate: ${sensor.designCorrosionRate.displayString}'),
-  //           Text('State: ${sensor.state.displayString}'),
-  //           Text('Date Next Service: ${formatDate(sensor.dateNextService)}'),
-  //           Text('Service Comment: ${sensor.serviceComment}'),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 }

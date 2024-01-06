@@ -3,6 +3,7 @@
 import 'sensor_abstract.dart';
 import '../../enums/enums_sensor.dart';
 import '../../enums/enums_sensor_er.dart';
+import '../../utils/helpers.dart';
 
 class ERSensor extends Sensor {
   final ErType erType;
@@ -27,8 +28,9 @@ class ERSensor extends Sensor {
     DesignCorrosionRate? designCorrosionRate,
     double? longTermCorrosionRate,
     double? shortTermCorrosionRate,
-  })  : designTemperature =
-            designTemperature ?? 20, // Default or a meaningful value
+  })  : designTemperature = designTemperature ?? 20,
+        longTermCorrosionRate = longTermCorrosionRate ?? 0.0,
+        shortTermCorrosionRate = shortTermCorrosionRate ?? 0.0,
         super(
           tag: tag,
           type: SensorType.er,
@@ -66,5 +68,18 @@ class ERSensor extends Sensor {
       longTermCorrosionRate: json['long_term_corrosion_rate'] as double,
       shortTermCorrosionRate: json['short_term_corrosion_rate'] as double,
     );
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      ...super.toJson(),
+      'er_type': intToHex(erType.value),
+      'design_temperature': designTemperature,
+      'reference_sample_area': intToHex(referenceSampleArea.code),
+      'inner_diameter': intToHex(innerDiameter.code),
+      'long_term_corrosion_rate': longTermCorrosionRate,
+      'short_term_corrosion_rate': shortTermCorrosionRate,
+    };
   }
 }

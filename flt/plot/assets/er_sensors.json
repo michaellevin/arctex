@@ -15,39 +15,5 @@
         "inner_diameter": "0x1",
         "long_term_corrosion_rate": 0.0,
         "short_term_corrosion_rate": 0.0
-    },
-    {
-        "tag": "12-078",
-        "type": "0x1",
-        "design_corrosion_rate": "0x1",
-        "date_production": "2024-01-06",
-        "date_installation": "2024-01-06",
-        "state": "0x1",
-        "date_next_service": "2026-01-05",
-        "service_comment": "",
-        "pipeline_id": -1,
-        "er_type": "0x1",
-        "design_temperature": 20,
-        "reference_sample_area": "0x1",
-        "inner_diameter": "0x1",
-        "long_term_corrosion_rate": 0.0,
-        "short_term_corrosion_rate": 0.0
-    },
-    {
-        "tag": "56-789",
-        "type": "0x1",
-        "design_corrosion_rate": "0x1",
-        "date_production": "2024-01-06",
-        "date_installation": "2024-01-06",
-        "state": "0x1",
-        "date_next_service": "2026-01-05",
-        "service_comment": "",
-        "pipeline_id": -1,
-        "er_type": "0x3",
-        "design_temperature": 20,
-        "reference_sample_area": "0x1",
-        "inner_diameter": "0x1",
-        "long_term_corrosion_rate": 0.0,
-        "short_term_corrosion_rate": 0.0
     }
 ]

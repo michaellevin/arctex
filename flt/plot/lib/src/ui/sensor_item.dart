@@ -6,8 +6,11 @@ import '../utils/helpers.dart';
 
 class SensorItem extends StatefulWidget {
   final Sensor sensor;
+  final VoidCallback onToggleSelection;
 
-  const SensorItem({Key? key, required this.sensor}) : super(key: key);
+  const SensorItem(
+      {Key? key, required this.sensor, required this.onToggleSelection})
+      : super(key: key);
 
   @override
   SensorItemState createState() => SensorItemState();
@@ -32,6 +35,7 @@ class SensorItemState extends State<SensorItem> {
           setState(() {
             isSelected = !isSelected;
           });
+          widget.onToggleSelection();
         },
         subtitle: Column(
           mainAxisSize: MainAxisSize.min,

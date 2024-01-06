@@ -1,14 +1,23 @@
+import '../utils/helpers.dart';
+
 // Type of the Sensor
-enum SensorType { er, ut, cp }
+enum SensorType {
+  er(0x01),
+  ut(0x02),
+  cp(0x03);
+
+  final int value;
+  const SensorType(this.value);
+}
 
 extension SensorTypeExtension on SensorType {
   static SensorType fromCode(String code) {
-    switch (code) {
-      case "0x01":
+    switch (parseHex(code)) {
+      case 0x01:
         return SensorType.er;
-      case "0x02":
+      case 0x02:
         return SensorType.ut;
-      case "0x03":
+      case 0x03:
         return SensorType.cp;
       default:
         return SensorType.er; // Default case
@@ -40,13 +49,24 @@ enum DesignCorrosionRate {
 
 extension DesignCorrosionRateExtension on DesignCorrosionRate {
   static DesignCorrosionRate fromCode(String code) {
-    switch (code) {
-      case "0x01":
+    switch (parseHex(code)) {
+      case 0x01:
         return DesignCorrosionRate.dcr_12; // 0.12 mm/year
-      case "0x02":
+      case 0x02:
         return DesignCorrosionRate.dcr_24; // 0.24 mm/year
       default:
         return DesignCorrosionRate.dcr_12;
+    }
+  }
+
+  int get code {
+    switch (this) {
+      case DesignCorrosionRate.dcr_12:
+        return 0x01;
+      case DesignCorrosionRate.dcr_24:
+        return 0x02;
+      default:
+        return 0x01; // Default case
     }
   }
 
@@ -54,16 +74,23 @@ extension DesignCorrosionRateExtension on DesignCorrosionRate {
 }
 
 // State of the sensor - Состояние датчика
-enum SensorState { ok, dirty, broken }
+enum SensorState {
+  ok(0x01),
+  dirty(0x02),
+  broken(0x03);
+
+  final int value;
+  const SensorState(this.value);
+}
 
 extension SensorStateExtension on SensorState {
   static SensorState fromCode(String code) {
-    switch (code) {
-      case "0x01":
+    switch (parseHex(code)) {
+      case 0x01:
         return SensorState.ok;
-      case "0x02":
+      case 0x02:
         return SensorState.dirty;
-      case "0x03":
+      case 0x03:
         return SensorState.broken;
       default:
         return SensorState.ok;

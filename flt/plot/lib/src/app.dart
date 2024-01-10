@@ -9,7 +9,8 @@ import 'models/sensors/sensor_abstract.dart';
 import 'models/sensors/sensor_er.dart';
 import 'enums/enums_sensor.dart';
 import 'ui/sensor_view.dart';
-import 'ui/sensor_chart.dart';
+// import 'ui/sensor_chart.dart';
+import 'ui/sensor_graph_view.dart';
 
 class PlotApp extends StatefulWidget {
   const PlotApp({Key? key}) : super(key: key);
@@ -118,8 +119,11 @@ class _PlotAppState extends State<PlotApp> {
           ),
           isCsvDataLoaded
               ? Expanded(
-                  child: SensorChart(csvData: csvData),
+                  child: SensorChartView(
+                  csvData: csvData,
                 )
+                  //SensorChart(initialCsvData: csvData),
+                  )
               : Container()
         ]),
         floatingActionButton: FloatingActionButton(
